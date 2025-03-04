@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farm Locations</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         ul { list-style-type: none; padding: 0; }
         li { margin: 10px 0; }
-        a { text-decoration: none; color: #0066cc; }
+        a { color: #0066cc; text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
@@ -17,27 +15,16 @@
     <ul id="farmList"></ul>
 
     <script>
-        // Paste your Google Sheets CSV link here
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQvzmP6gRUZ9pIRwwXP14d-7X5uM1JNSjuLpgqIZw6ZE7rT5hTpCQzE_UvUchI1DqmKc2UUXUo80_p8/pub?output=csv";
-
-        fetch(csvUrl)
-            .then(response => response.text())
-            .then(data => {
-                const rows = data.split("\n").slice(1); // Skip header
-                const farmList = document.getElementById("farmList");
-                rows.forEach(row => {
-                    if (row.trim() === "") return; // Skip empty rows
-                    const [name, lat, lon] = row.split(",");
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
-                    a.textContent = name;
-                    a.target = "_blank"; // Open in new tab
-                    li.appendChild(a);
-                    farmList.appendChild(li);
-                });
-            })
-            .catch(error => console.error("Error loading farms:", error));
+        const farmData = [
+            "Boarman 01,38.226558,-88.508334",
+            "Beagle,38.025636,-88.468262"
+            // Add your remaining 318 farms here, one per line, in the same format
+        ];
+        const farmList = document.getElementById("farmList");
+        farmData.forEach(row => {
+            const [name, lat, lon] = row.split(",");
+            farmList.innerHTML += `<li><a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}" target="_blank">${name}</a></li>`;
+        });
     </script>
 </body>
 </html>
